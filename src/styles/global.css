@@ -769,3 +769,62 @@ input[type='number'] { -moz-appearance: textfield; appearance: textfield; }
 }
 @keyframes jellypulse { from { transform: scaleY(1) scaleX(1); } to { transform: scaleY(1.08) scaleX(0.96); } }
 @keyframes tentaclesway { from { transform: rotate(-2deg); } to { transform: rotate(2deg); } }
+
+/* ── Splash / loading screen ─────────────────────────────────────
+      #boot-splash in index.html shows while the bundle downloads;
+      SplashScreen.tsx replaces it with the same look plus progress. */
+.splash {
+  position: fixed; inset: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 50% 30%, rgba(0, 245, 255, 0.14), transparent 60%),
+    linear-gradient(180deg, #0d2e4f 0%, #051221 55%, #020812 100%);
+  transition: opacity 600ms ease, visibility 600ms;
+}
+.splash.splash-out { opacity: 0; visibility: hidden; pointer-events: none; }
+.splash-center {
+  position: relative; display: flex; flex-direction: column; align-items: center;
+  gap: 18px; padding: 24px; text-align: center;
+}
+.splash-fish { animation: splashbob 2.4s ease-in-out infinite; filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.5)); }
+.splash-title {
+  display: flex; flex-direction: column; align-items: center; line-height: 0.95;
+  font-family: var(--font-ui); font-weight: 900; letter-spacing: 0.06em;
+  font-size: clamp(36px, 9vw, 72px); color: #fff;
+  text-shadow: 0 0 24px rgba(0, 245, 255, 0.45);
+}
+.splash-title-accent {
+  color: var(--gold);
+  text-shadow: 0 0 24px rgba(255, 215, 0, 0.45);
+}
+.splash-bar {
+  width: min(280px, 70vw); height: 8px; border-radius: 999px; overflow: hidden;
+  background: var(--glass-bg); border: 1px solid var(--glass-border);
+}
+.splash-bar-fill {
+  height: 100%; border-radius: inherit;
+  background: linear-gradient(90deg, var(--cyan), var(--gold));
+  box-shadow: 0 0 12px rgba(0, 245, 255, 0.6);
+  transition: width 400ms ease;
+}
+.splash-status { color: var(--text-soft); font-size: 14px; letter-spacing: 0.04em; min-height: 1.2em; }
+.splash-bubbles span {
+  position: absolute; bottom: -24px; border-radius: 50%;
+  border: 1px solid rgba(161, 196, 230, 0.5);
+  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.5), rgba(0, 245, 255, 0.05));
+  animation: splashbubble 6s linear infinite;
+}
+@keyframes splashbob {
+  0%, 100% { transform: translate(-6px, 0) rotate(-2deg); }
+  50% { transform: translate(6px, -10px) rotate(2deg); }
+}
+@keyframes splashbubble {
+  0% { transform: translate(0, 0); opacity: 0; }
+  10% { opacity: 1; }
+  100% { transform: translate(14px, -110vh); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .splash-fish, .splash-bubbles span { animation: none; }
+  .splash-bubbles { display: none; }
+}
