@@ -1,0 +1,23 @@
+{
+	"folders": [
+		{
+			"path": "../../../../wsb-worldiastor-api"
+		},
+		{
+			"path": "../../.."
+		},
+		{
+			"path": "../../../../FeedingFranzeeAPI"
+		},
+		{
+			"path": "../../../../RocketCrash"
+		},
+		{
+			"path": "../../../../RocketCrashAPI"
+		},
+		{
+			"path": "../../../../wsb-worldiastor-fe"
+		}
+	],
+	"settings": {}
+}

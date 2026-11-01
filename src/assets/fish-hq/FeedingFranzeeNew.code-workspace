@@ -1,0 +1,29 @@
+{
+	"folders": [
+		{
+			"path": "../../.."
+		},
+		{
+			"path": "../../../../FeedingFranzeeAPI"
+		},
+		{
+			"path": "../../../../RSGGAMEAPI"
+		},
+		{
+			"path": "../../../../repos/BetNova-GameAPI"
+		},
+		{
+			"path": "../../../../../Documents/TradeX"
+		},
+		{
+			"path": "../../../../../Documents/Mystery Box - FE"
+		},
+		{
+			"path": "../../../../../Documents/Frontend Crash Games/Comet Rider"
+		},
+		{
+			"path": "../../../../../Documents/Frontend Crash Games/Message in a Bottle"
+		}
+	],
+	"settings": {}
+}
