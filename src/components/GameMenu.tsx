@@ -195,7 +195,7 @@ export function GameMenu({ state, actions }: { state: GameState; actions: GameAc
               <span className="legend-tier">{tier.tierLabel}</span>
             </div>
             <span className="legend-mult" style={{ color: tier.multColor }}>
-              {tier.multiplier.toFixed(1)}x
+              {Number.isInteger(tier.multiplier * 10) ? tier.multiplier.toFixed(1) : tier.multiplier.toFixed(2)}x
             </span>
           </div>
         ))}

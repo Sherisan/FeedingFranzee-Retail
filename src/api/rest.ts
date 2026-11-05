@@ -12,3 +12,17 @@ export async function getHistory(count = 20): Promise<HistoryEntryDto[]> {
   if (!res.ok) throw new Error(`history failed: ${res.status}`);
   return res.json();
 }
+
+export interface EvolutionTierDto {
+  level: number;
+  code: string;
+  name: string;
+  multiplier: number;
+}
+
+/** Evolution multipliers set in the Game Back Office. */
+export async function getEvolution(gameId: string): Promise<EvolutionTierDto[]> {
+  const res = await fetch(`${API_BASE}/api/games/${encodeURIComponent(gameId)}/evolution`);
+  if (!res.ok) throw new Error(`evolution failed: ${res.status}`);
+  return res.json();
+}

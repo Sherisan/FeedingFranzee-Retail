@@ -73,3 +73,14 @@ export function progressToNext(multiplier: number): { progress: number; next: Fi
 export function playerScale(multiplier: number): number {
   return Math.min(2.1, 0.5 + 0.35 * Math.log(Math.max(1, multiplier)) / Math.log(2.4));
 }
+
+/**
+ * Overwrites the multipliers above with the ones set in the Game Back Office, matched by species.
+ * Unknown species are ignored; anything not sent keeps its built-in value.
+ */
+export function applyEvolutionMultipliers(tiers: { code: string; multiplier: number }[]): void {
+  for (const t of tiers) {
+    const tier = FISH_TIERS.find((f) => f.species === t.code);
+    if (tier && t.multiplier > 0) tier.multiplier = t.multiplier;
+  }
+}
