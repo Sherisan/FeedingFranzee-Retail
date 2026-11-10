@@ -30,7 +30,7 @@ export interface MyBet {
   lost: boolean;
   /** Multiplier boost earned by eating fish (server-confirmed). */
   boost: number;
-  /** True after hitting a bomb — the bet is dead and cannot cash out. */
+  /** True after hitting a mine — the mine cashed the bet out at the multiplier it hit. */
   dead: boolean;
   /** A promo free bet: a win pays only what's above the stake. */
   free?: boolean;
@@ -315,8 +315,8 @@ function reducer(state: GameState, action: Action): GameState {
     case 'playerDied':
       return {
         ...state,
-        myBets: updateMyBet(state.myBets, action.slot, (bet) => ({ ...bet, dead: true, lost: true })),
-        toasts: pushToast(state.toasts, 'error', '💥 BOOM! Your fish hit a mine — bet lost.'),
+        myBets: updateMyBet(state.myBets, action.slot, (bet) => ({ ...bet, dead: true })),
+        toasts: pushToast(state.toasts, 'error', '💥 BOOM! Your fish hit a mine — cashed out.'),
       };
 
     case 'history':

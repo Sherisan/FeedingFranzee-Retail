@@ -20,9 +20,9 @@ function HowToPlayView() {
       <ol className="menu-howto-list">
         <li>Choose a bet amount for either or both betting slots, then tap <strong>FEED!</strong> during the countdown.</li>
         <li>Once the round launches, hold and drag (mouse or finger) to steer your fish around the arena.</li>
-        <li>Eating a smaller fish boosts your multiplier — the bigger the fish you eat, the bigger the boost.</li>
-        <li>Avoid the mines drifting through the water — touching one destroys every active bet instantly.</li>
-        <li>Tap <strong>Cash Out</strong> on a slot at any time to lock in winnings at the current multiplier plus your boost.</li>
+        <li>Eating a smaller fish adds a small boost to your payout (+0.1% to +0.5% per fish, up to +0.5% per bet) — the bigger the fish, the bigger the boost.</li>
+        <li>Avoid the mines drifting through the water — touching one ends your fish and cashes out every active bet at the multiplier it hit.</li>
+        <li>Tap <strong>Cash Out</strong> on a slot at any time to lock in winnings at the current multiplier, plus your boost.</li>
         <li>Set an <strong>Auto Cash-Out</strong> value to lock in automatically, or <strong>Auto-Play</strong> to keep betting for several rounds unattended.</li>
       </ol>
     </div>
@@ -35,7 +35,7 @@ function GameRulesView({ state }: { state: GameState }) {
       <p>
         Each player has two independent betting slots — each can carry a different bet amount and
         Auto Cash-Out value. Both slots share the same fish: if it hits a mine, every active slot's
-        bet is lost together.
+        bet is cashed out together.
       </p>
       {state.limits && (
         <>
