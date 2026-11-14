@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useReducer, useRef } from 'react';
 import type { HubConnection } from '@microsoft/signalr';
 import { createGameConnection } from '../api/signalr';
+import { isRetailLaunch } from '../api/auth';
 import { getLimits } from '../api/rest';
 import { multiplierToMs, msToMultiplier } from './multiplier';
 import {
@@ -75,11 +76,11 @@ export interface GameState {
   toasts: Toast[];
 }
 
-// When the game isn't launched through the platform (no ?token=), start from a
+// When the game isn't launched through the platform (no ?token= or ?egmid=), start from a
 // demo balance so the HUD isn't stuck at 0 if the API is unreachable. A real
 // launch starts at 0 and waits for the server's ConnectedAs balance instead.
 const DEMO_BALANCE = Number(import.meta.env.VITE_DEMO_BALANCE ?? 10000) || 10000;
-const launchedWithToken = new URLSearchParams(window.location.search).has('token');
+const launchedWithToken = new URLSearchParams(window.location.search).has('token') || isRetailLaunch;
 
 const initialState: GameState = {
   conn: 'connecting',
@@ -393,6 +394,15 @@ export function useGameState(): { state: GameState; actions: GameActions } {
     conn.on('PlayerDied', (dto: { slot: number }) =>
       dispatch({ type: 'playerDied', slot: dto.slot }),
     );
+    // Retail cabinets: the meter changed — a note inserted, an AFT transfer, a cash-out at the
+    // machine, or a bet / win the server settled. The server's balance is always the truth.
+    conn.on('Balance', (dto: { balance: number; reason?: string }) => {
+      dispatch({ type: 'balance', value: dto.balance });
+      if (dto.reason === 'BillInserted' || dto.reason === 'AftDeposit')
+        dispatch({ type: 'toast', kind: 'info', text: 'Credits added' });
+      else if (dto.reason === 'Cashout')
+        dispatch({ type: 'toast', kind: 'info', text: 'Cashed out at the machine' });
+    });
 
     // Set when this effect is torn down (unmount, or React StrictMode's dev
     // double-mount) — a connection we stopped on purpose must not report
